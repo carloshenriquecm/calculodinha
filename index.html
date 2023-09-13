@@ -1,46 +1,341 @@
-<!DOCTYPE html>
-<html lang="pt">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador de Empréstimos e Financiamentos</title>
-    <style>
-        table {
-            border-collapse: collapse;
-            width: 100%;
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Calculadora de Empréstimo</title>
+        <style>
+            /* Estilos gerais */
+            body {
+                font-family: Arial, sans-serif;
+                margin: 0 auto; /* Centraliza horizontalmente */
+                padding: 0;
+                background-color: #f4f4f4;
+                color: #333;
+            }
+
+            /* Estilos para telas pequenas (até 600px de largura) */
+            @media (max-width: 600px) {
+                h1 {
+                    font-size: 24px;
+                    text-align: center;
+                }
+
+                div {
+                    margin-bottom: 10px;
+                }
+
+                .resultado {
+                    text-align: center;
+                    padding: 20px;
+                }
+
+                .container {
+                max-width: 100%;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0px 0px 5px 0px #ccc;
+                }
+
+                form {
+                    max-width: 100%;
+                    margin: 0 auto;
+                    padding: 20px 40px 20px 20px;
+                    background-color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 5px 0px #ccc;
+                }
+
+                label {
+                    display: block;
+                    font-size: 18px;
+                    margin-bottom: 5px;
+                }
+
+                input[type="text"] {
+                    width: 95%;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                }
+                
+                input[type="number"],
+                input[type="date"] {
+                    width: 95%;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                    font-size: 16px;
+                }
+
+                button {
+                    width: 100%;
+                    padding: 10px;
+                    background-color: #007BFF;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-bottom: 10px;
+                    font-size: 18px;
+                }
+
+                table {
+                    font-size: 14px;
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: 0 auto; /* Centraliza a tabela horizontalmente */
+                    max-width: 800px; /* Define uma largura máxima para a tabela */
+                }
+
+                th, td {
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    padding: 10px;
+                }
+
+                p {
+                    font-size: 18px;
+                    text-align: center;
+                }
+            }
+
+            /* Estilos para telas maiores (acima de 600px de largura) */
+            @media (min-width: 601px) {
+                h1 {
+                    font-size: 36px;
+                    text-align: center;
+                }
+
+                div {
+                    margin-right: 20px;
+                    text-align: left;
+                }
+
+                .resultado {
+                    text-align: center;
+                    padding: 20px;
+                }
+
+                .container {
+                max-width: 500px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #fff;
+                border-radius: 5px;
+                box-shadow: 0px 0px 5px 0px #ccc;
+                }
+
+                .minha-div {
+                    display: inline-block;
+                    margin-bottom: 20px;
+                }
+                form {
+                    max-width: 400px;
+                    margin: 0 auto;
+                    padding: 20px;
+                    background-color: #fff;
+                    border-radius: 5px;
+                    box-shadow: 0px 0px 5px 0px #ccc;
+                }
+
+                label {
+                    font-size: 16px;
+                }
+
+                input[type="text"] {
+                width: 95%;
+                padding: 10px;
+                border: 1px solid #ccc;
+                border-radius: 5px;
+                }            
+
+                input[type="number"],
+                input[type="date"] {
+                    width: 95%;
+                    padding: 10px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    margin-bottom: 10px;
+                }
+
+                button {
+                    width: 100%;
+                    padding: 10px;
+                    background-color: #007BFF;
+                    color: #fff;
+                    border: none;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    margin-bottom: 10px;
+                }
+                table {
+                    font-size: 14px;
+                    border-collapse: collapse;
+                    width: 100%;
+                    margin: 0 auto; /* Centraliza a tabela horizontalmente */
+                    max-width: 800px; /* Define uma largura máxima para a tabela */
+                }
+
+                th, td {
+                    border: 1px solid #ddd;
+                    text-align: left;
+                    padding: 10px;
+                }
+
+                th {
+                    background-color: #007BFF;
+                    color: #fff;
+                }
+
+                tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+
+                tr:hover {
+                    background-color: #ddd;
+                }
+                p {
+                    font-size: 16px;
+                    text-align: center;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Calculadora de Empréstimo</h1>
+        <div class="container">
+            <label for="numParcelas">Número de Parcelas:</label>
+            <input type="number" id="numParcelas" required><br><br>
+
+            <label for="valorParcela">Valor da Parcela:</label>
+            <input type="number" id="valorParcela" required><br><br>
+
+            <label for="valorTotal">Valor Total:</label>
+            <input type="number" id="valorTotal" required><br><br>
+
+            <label for="dataEmprestimo">Data do Primeiro Vencimento:</label>
+            <input type="date" id="dataEmprestimo" required><br><br>
+
+            <label for="dataConsulta">Data de Consulta:</label>
+            <input type="date" id="dataConsulta" required><br><br>
+
+            <button type="button" onclick="calcularTaxaJuros()">Calcular Taxa de Juros</button>
+            <button type="button" onclick="calcularParcelas()">Calcular Parcelas</button>
+            <button type="button" onclick="calcularSaldoDevedor()">Calcular Saldo Devedor</button>
+            <button type="button" onclick="calcularTudo()">Calcular Tudo</button><br><br>
+
+            <p id="resultado1"></p>
+            <p id="resultado2"></p>
+            <p id="resultado3"></p>
+        </div>
+
+        <h1>Simulador de Empréstimos e Financiamentos</h1>
+        <div class="container">
+            <!-- Conteúdo do segundo formulário aqui -->
+
+                <label for="loanAmount">Valor do empréstimo:</label>
+                <input type="number" id="loanAmount"><br><br>  
+
+                <label for="numberOfInstallments">Número de parcelas:</label>
+                <input type="number" id="numberOfInstallments"><br><br>
+
+                <label for="interestRate">Taxa de juros (%):</label>
+                <input type="number" id="interestRate"><br><br>
+
+                <button onclick="preencherSaldoDevedor()">Preencher Saldo Devedor</button>
+
+                <button type="button" onclick="calculateLoan()">Calcular</button>
+        </div>
+        <!-- Div vazia onde a tabela de resultados será exibida -->
+        <div id="result" class="resultado"></div>
+        
+        
+    <script>
+        function calcularTaxaJuros() {
+            const numParcelas = parseFloat(document.getElementById("numParcelas").value);
+            const valorParcela = parseFloat(document.getElementById("valorParcela").value);
+            const valorTotal = parseFloat(document.getElementById("valorTotal").value);
+
+            let taxaJuros = 1; // Começa com uma taxa de juros inicial
+
+            for (let i = 0; i < 1000; i++) { // Itera para encontrar a taxa correta
+                const temp = valorTotal - (valorParcela * (1 - Math.pow(1 + taxaJuros / 100, -numParcelas))) / (taxaJuros / 100);
+                const derivada = (numParcelas * valorParcela) / (Math.pow(1 + taxaJuros / 100, -numParcelas + 1)) - valorParcela;
+                taxaJuros -= temp / derivada;
+                if (Math.abs(temp) < 0.001) { // Condição de parada
+                    break;
+                }
+            }
+
+            // Exibe o resultado da taxa de juros na página
+            document.getElementById("resultado1").innerHTML = `Taxa de Juros: ${taxaJuros.toFixed(2)}%`;
         }
 
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
+        function preencherDataAtual() {
+            const dataAtual = new Date();
+            const dia = String(dataAtual.getDate()).padStart(2, '0');
+            const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+            const ano = dataAtual.getFullYear();
+            const dataFormatada = `${ano}-${mes}-${dia}`;
+            document.getElementById("dataConsulta").value = dataFormatada;
         }
-    </style>
-</head>
-<body>
 
-<h1>Simulador de Empréstimos e Financiamentos</h1>
+        // Preenche a data de consulta com a data atual quando a página é carregada
+        window.onload = preencherDataAtual;
 
-<div>
-    <label for="loanAmount">Valor do empréstimo:</label>
-    <input type="text" id="loanAmount" placeholder="Digite o valor do empréstimo">
-</div>
+        function calcularParcelas() {
+            const numParcelas = parseFloat(document.getElementById("numParcelas").value);
+            const dataEmprestimo = new Date(document.getElementById("dataEmprestimo").value);
+            const dataConsulta = new Date(document.getElementById("dataConsulta").value);
 
-<div>
-    <label for="numberOfInstallments">Número de parcelas:</label>
-    <input type="text" id="numberOfInstallments" placeholder="Digite o número de parcelas">
-</div>
+            let parcelasPagas = 0;
+            let parcelasRestantes = numParcelas;
 
-<div>
-    <label for="interestRate">Taxa de juros mensal (%):</label>
-    <input type="text" id="interestRate" placeholder="Digite a taxa de juros mensal">
-</div>
+            // Calcula a diferença em meses entre os meses de empréstimo e consulta
+            const diffAnos = dataConsulta.getFullYear() - dataEmprestimo.getFullYear();
+            const diffMeses = diffAnos * 12 + (dataConsulta.getMonth() - dataEmprestimo.getMonth());
 
-<button onclick="calculateLoan()">Calcular</button>
+            for (let i = 0; i <= diffMeses; i++) {
+                const dataParcela = new Date(dataEmprestimo);
+                dataParcela.setMonth(dataParcela.getMonth() + i);
 
-<div id="result"></div>
+                // Se a data da parcela for igual ou anterior à data de consulta, incrementa as parcelas pagas
+                if (dataParcela <= dataConsulta || (dataParcela.getDate() == dataConsulta.getDate() && dataParcela < dataConsulta)) {
+                    parcelasPagas++;
+                    parcelasRestantes--;
+                }
+            }
 
-<script>
+            // Exibe o resultado das parcelas na página
+            document.getElementById("resultado2").innerHTML = `Parcelas pagas até o momento: ${parcelasPagas}<br>Parcelas que ainda restam: ${parcelasRestantes}`;
+        }
+
+        function calcularSaldoDevedor() {
+            const taxaJuros = parseFloat(document.getElementById("resultado1").innerText.match(/Taxa de Juros: (\d+\.\d+)%/)[1]);
+            const parcelasRestantes = parseFloat(document.getElementById("resultado2").innerText.match(/Parcelas que ainda restam: (\d+)/)[1]);
+            const valorParcela = parseFloat(document.getElementById("valorParcela").value);
+
+            const saldoDevedor = Math.abs(valorParcela * (Math.pow(1 + taxaJuros / 100, -parcelasRestantes) - 1) / (taxaJuros / 100));
+
+            // Exibe o resultado do saldo devedor na página
+            document.getElementById("resultado3").innerHTML = `Saldo Devedor: R$ ${saldoDevedor.toFixed(2)}`;
+        }
+
+        function calcularTudo() {
+            calcularTaxaJuros();
+            calcularParcelas();
+            calcularSaldoDevedor();
+        }
+    </script>
+    <script>
+        function preencherSaldoDevedor() {
+        const saldoDevedor = parseFloat(document.getElementById("resultado3").innerText.match(/Saldo Devedor: R\$\s*(\d+\.\d+)/)[1]);
+        document.getElementById("loanAmount").value = saldoDevedor.toFixed(2);
+    }
     function calculateLoan() {
         // Obter valores inseridos pelo usuário
         const loanAmount = parseFloat(document.getElementById("loanAmount").value.replace(',', '.'));
@@ -85,12 +380,11 @@
 
         // Exibir a tabela de resultados
         const resultElement = document.getElementById("result");
-        resultElement.innerHTML = "<strong>Detalhes do Financiamento:</strong><br>";
+        resultElement.innerHTML = "<strong>Detalhes do Financiamento:</strong><br><br>";
         resultElement.appendChild(table);
 
-        resultElement.innerHTML += `<br>Total pago: R$ ${(totalPayments + 0.01).toFixed(2)} (incluindo R$ ${(totalInterest + 0.01).toFixed(2)} de juros)`;
+        resultElement.innerHTML += `<br><strong>Total pago:</strong> R$ ${(totalPayments + 0.01).toFixed(2)} (incluindo R$ ${(totalInterest + 0.01).toFixed(2)} de juros)`;
     }
-</script>
-
-</body>
-</html>
+    </script>
+    </body>
+    </html>
