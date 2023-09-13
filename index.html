@@ -63,7 +63,7 @@
                 
                 input[type="number"],
                 input[type="date"] {
-                    width: 95%;
+                    width: 94%;
                     padding: 10px;
                     border: 1px solid #ccc;
                     border-radius: 5px;
@@ -96,7 +96,18 @@
                     text-align: left;
                     padding: 10px;
                 }
+                th {
+                    background-color: #863FCC;
+                    color: #fff;
+                }
 
+                tr:nth-child(even) {
+                    background-color: #f2f2f2;
+                }
+
+                tr:hover {
+                    background-color: #ddd;
+                }
                 p {
                     font-size: 18px;
                     text-align: center;
@@ -171,6 +182,7 @@
                     border-radius: 5px;
                     cursor: pointer;
                     margin-bottom: 10px;
+                    font-size: 15px;
                 }
                 table {
                     font-size: 14px;
@@ -187,7 +199,7 @@
                 }
 
                 th {
-                    background-color: #007BFF;
+                    background-color: #863FCC;
                     color: #fff;
                 }
 
@@ -238,15 +250,15 @@
             <!-- Conteúdo do segundo formulário aqui -->
 
                 <label for="loanAmount">Valor do empréstimo:</label>
-                <input type="number" id="loanAmount"><br><br>  
-
+                <input type="number" id="loanAmount">  
+                <button onclick="preencherSaldoDevedor()">Preencher Saldo Devedor</button><br>
                 <label for="numberOfInstallments">Número de parcelas:</label>
                 <input type="number" id="numberOfInstallments"><br><br>
 
                 <label for="interestRate">Taxa de juros (%):</label>
                 <input type="number" id="interestRate"><br><br>
 
-                <button onclick="preencherSaldoDevedor()">Preencher Saldo Devedor</button>
+
 
                 <button type="button" onclick="calculateLoan()">Calcular</button>
         </div>
@@ -272,7 +284,7 @@
             }
 
             // Exibe o resultado da taxa de juros na página
-            document.getElementById("resultado1").innerHTML = `Taxa de Juros: ${taxaJuros.toFixed(2)}%`;
+            document.getElementById("resultado1").innerHTML = `<strong>Taxa de Juros:</strong> ${taxaJuros.toFixed(2)}%`;
         }
 
         function preencherDataAtual() {
@@ -311,7 +323,7 @@
             }
 
             // Exibe o resultado das parcelas na página
-            document.getElementById("resultado2").innerHTML = `Parcelas pagas até o momento: ${parcelasPagas}<br>Parcelas que ainda restam: ${parcelasRestantes}`;
+            document.getElementById("resultado2").innerHTML = `<strong>Parcelas pagas até o momento:</strong> ${parcelasPagas}<br><strong>Parcelas que ainda restam:</strong> ${parcelasRestantes}`;
         }
 
         function calcularSaldoDevedor() {
@@ -322,7 +334,7 @@
             const saldoDevedor = Math.abs(valorParcela * (Math.pow(1 + taxaJuros / 100, -parcelasRestantes) - 1) / (taxaJuros / 100));
 
             // Exibe o resultado do saldo devedor na página
-            document.getElementById("resultado3").innerHTML = `Saldo Devedor: R$ ${saldoDevedor.toFixed(2)}`;
+            document.getElementById("resultado3").innerHTML = `<strong>Saldo Devedor:</strong> R$ ${saldoDevedor.toFixed(2)}`;
         }
 
         function calcularTudo() {
